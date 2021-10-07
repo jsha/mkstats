@@ -211,7 +211,7 @@ func read(ch chan data, filenames []string) {
 				log.Fatal(err)
 			}
 			if len(serialBytes) != 18 {
-				log.Fatal("invalid serial number on line %d of %q: %q", i, filename, serial)
+				log.Fatalf("invalid serial number on line %d of %q: %q", i, filename, serial)
 			}
 			ch <- data{date: date, serialBytes: serialBytes, reversedName: reversedName}
 		}
