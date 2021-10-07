@@ -198,18 +198,20 @@ func read(ch chan data, filenames []string) {
 		reader := csv.NewReader(f)
 		reader.Comma = '\t'
 
+		i := 0
 		for {
 			record, err := reader.Read()
 			if err != nil {
 				break
 			}
+			i++
 			reversedName, date, serial := record[1], record[2], record[3]
 			serialBytes, err := hex.DecodeString(serial)
 			if err != nil {
 				log.Fatal(err)
 			}
 			if len(serialBytes) != 18 {
-				log.Fatal("invalid serial number in %q: %q", filename)
+				log.Fatal("invalid serial number on line %d of %q: %q", i, filename, serial)
 			}
 			ch <- data{date: date, serialBytes: serialBytes, reversedName: reversedName}
 		}
