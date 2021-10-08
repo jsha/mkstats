@@ -208,7 +208,7 @@ func read(ch chan data, filenames []string) {
 			reversedName, date, serial := record[1], record[2], record[3]
 			serialBytes, err := hex.DecodeString(serial)
 			if err != nil {
-				log.Fatal(err)
+				log.Fatalf("invalid serial number on line %d of %q: %q", i, filename, serial)
 			}
 			if len(serialBytes) != 18 {
 				log.Fatalf("invalid serial number on line %d of %q: %q", i, filename, serial)
@@ -216,7 +216,7 @@ func read(ch chan data, filenames []string) {
 			ch <- data{date: date, serialBytes: serialBytes, reversedName: reversedName}
 		}
 		if err != nil && err != io.EOF {
-			log.Fatal(err)
+			log.Fatalf("error reading TSV on line %d of %q", i, filename)
 		}
 	}
 	close(ch)
