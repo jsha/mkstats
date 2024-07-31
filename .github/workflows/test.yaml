@@ -1,0 +1,15 @@
+name: testing
+
+on: [push, pull_request]
+
+jobs:
+  active-integration:
+    name: integration test of active
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-go@v5
+        with:
+          cache: false
+          go-version: "1.22"
+      - uses: actions/checkout@v4
+      - run: testdata/integration_test.sh

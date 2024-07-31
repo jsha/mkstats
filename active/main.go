@@ -70,7 +70,10 @@ func process(ch chan data, targetDate time.Time, done chan bool) {
 		serialUint64 := binary.BigEndian.Uint64(d.serialBytes[6:])
 		serialCount[serialUint64] = struct{}{}
 
-		if date.After(targetDate.Add(-24*time.Hour)) && date.Before(targetDate) {
+		// Since we use dates of the zero hour, we have to allow for equality
+		// on the left. We want effectively targetDate-24h <= d < targetDate
+		yesterday := targetDate.Add(-24*time.Hour)
+		if (date.Equal(yesterday) || date.After(yesterday)) && date.Before(targetDate) {
 			today[serialUint64] = struct{}{}
 		}
 
