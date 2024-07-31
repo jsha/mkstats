@@ -11,4 +11,9 @@ cat >"${EXPECTED}" <<EOF
 2024-07-13	6	14	20	1
 EOF
 
-diff "${EXPECTED}" "${OUTFILE}"
+if diff "${EXPECTED}" "${OUTFILE}" ; then
+	echo "Test PASSED"
+else
+	echo "Test FAILED"
+	exit 1
+fi
