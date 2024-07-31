@@ -13,4 +13,6 @@ jobs:
           go-version: "1.22"
       - uses: actions/checkout@v4
       - uses: golangci/golangci-lint-action@v6
+        with:
+          version: latest
       - run: go test ./... -cover
